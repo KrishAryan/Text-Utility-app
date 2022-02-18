@@ -1,14 +1,24 @@
 import React,{useState} from 'react'
 
 
-export default function TextForm(props) {
+
+export default function TextForm(props) 
+{
   const [text,setText]=useState("");
+  
+  function arrayRemove(arr, value) { 
+          return arr.filter(function(ele){ 
+          return ele !== value; 
+      });
+  }
   function handleUpClick(){
     
     setText(text.toUpperCase());
+    props.showAlert("Your text has been converted to Uppercase","success")
   }
   function handleDownClick(){
     setText(text.toLowerCase())
+    props.showAlert("Your text has been converted to Lowercase","success")
   }
    function handleOnChange(event){
    // console.log("On change");
@@ -16,22 +26,30 @@ export default function TextForm(props) {
   }
   function handleClearText(){
     setText("");
+    props.showAlert("Your text has been cleared","success")
   }
   function wordCount(text){
     if(text==="")
       return 0;
     else 
-    return text.split(" ").length;
+    {
+      text=text.split(" ")
+
+      text=arrayRemove(text,"");
+    return text.length;
   }
+}
   function handleCopy(){
     var newText=document.getElementById("myBox");
     newText.select();
     navigator.clipboard.writeText(newText.value);
+    props.showAlert("Your text has been copied to clipboard","success")
   }
   function removeExtraSpaces(){
     
     let newText=text.split(/[  ]+/);
     setText(newText.join(" "))
+    props.showAlert("Extra spaces are removed","success")
   }
 
   return (
